@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [test])
   (:require [clojure.tools.build.api :as b]))
 
-(def lib 'me.explore/aws-lambda)
+(def lib 'reedho/explore-aws-lambda)
 (def version "0.1.0")
 (def main 'me.explore.aws-lambda)
 (def class-dir "target/classes")
@@ -30,6 +30,7 @@
   (test opts)
   (b/delete {:path "target"})
   (let [opts (uber-opts opts)]
+    ;; Uncomment this to include our clj sources as well as the resources
     ;;(println "\nCopying source...")
     ;;(b/copy-dir {:src-dirs ["resources" "src"] :target-dir class-dir})
     (println (str "\nCompiling " main "..."))

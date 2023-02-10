@@ -2,13 +2,14 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Bare minimum clj for lambda.
 Resources:
-  function:
+  HelloCljFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: target/aws-lambda-0.1.0.jar
+      FunctionName: HelloClj
       Handler: me.explore.aws_lambda
       Runtime: java11
-      Description: Java function
+      CodeUri: ./
+      Description: Hello lambda with clojure
       MemorySize: 256
       Timeout: 10 # seconds
       # Function's execution role
@@ -18,3 +19,5 @@ Resources:
         - AWSXrayWriteOnlyAccess
         - AWSLambdaVPCAccessExecutionRole
       Tracing: Active
+    Metadata:
+      BuildMethod: makefile

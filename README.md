@@ -75,35 +75,19 @@ provide corresponding implementation of its `handleRequest` method.
     (charred.api/write-json out {:status 200 :message "OK" :in x})))
 ```
 
-Package:
+Build & Deploy:
 
-Given this [`template.yml`](./template.yml), we first package our build jar
-output to s3 with the following command. Note that this will generate an actual
-cloudformation template file that is saved to
-[`explore-aws-lambda.yml`](./explore-aws-lambda.yml) (it will replace
-`CodeUri` with concrete s3 object that is upload by this command).
+Given this [`template.yml`](./template.yml) and the companion
+[`Makefile`](./Makefile) we can now deploy with [SAM](https://aws.amazon.com/serverless/sam/).
 
-    $ aws cloudformation package --template-file template.yml \
-        --s3-bucket ridho-test \
-        --output-template-file explore-aws-lambda.yml
+    $ sam build
+    $ sam deploy --guided # for the firstime, this will create samconfig.toml
+    $ sam deploy # subsequent deploy
 
-Deploy:
+Cleanup:
 
-    $ aws cloudformation deploy --template-file explore-aws-lambda.yml \
-        --stack-name ridho-test-lambda-1 --capabilities CAPABILITY_NAMED_IAM
+    $ sam delete --config-file samconfig.toml
 
-Test invoke with aws cli:
-
-    $ aws lambda invoke \
-        --function-name ridho-test-lambda-1-function-BQ3cJONOFD4T \
-        --cli-binary-format raw-in-base64-out \
-        --payload '{"name":"ridho"}' \
-        __response.json
-
-Cleanup / remove deployed artifacts:
-
-    $ aws cloudformation delete-stack --stack-name ridho-test-lambda-1
-    $ aws s3 rb s3://ridho-test --force
 
 ## License
 
