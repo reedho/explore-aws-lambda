@@ -19,5 +19,8 @@ Resources:
         - AWSXrayWriteOnlyAccess
         - AWSLambdaVPCAccessExecutionRole
       Tracing: Active
+      AutoPublishAlias: live
+      FunctionUrlConfig:
+        AuthType: NONE
     Metadata:
       BuildMethod: makefile
